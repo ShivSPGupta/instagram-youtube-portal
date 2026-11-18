@@ -7,9 +7,7 @@ function sendError(res, error) {
     error: {
       code: error.code || "INTERNAL_ERROR",
       message:
-        status === 500
-          ? "An unexpected server error occurred."
-          : error.message,
+        status === 500 ? "An unexpected server error occurred." : error.message,
     },
   });
 }

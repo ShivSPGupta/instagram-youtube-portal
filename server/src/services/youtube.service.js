@@ -130,8 +130,10 @@ function getUploadHistory() {
 }
 
 function getAllowedMediaHost(hostname) {
-  return /(^|\.)cdninstagram\.com$/i.test(hostname) ||
-    /(^|\.)fbcdn\.net$/i.test(hostname);
+  return (
+    /(^|\.)cdninstagram\.com$/i.test(hostname) ||
+    /(^|\.)fbcdn\.net$/i.test(hostname)
+  );
 }
 
 async function downloadInstagramMedia(mediaUrl, directory, mediaType) {

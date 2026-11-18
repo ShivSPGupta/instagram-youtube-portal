@@ -2,18 +2,14 @@ const instagramService = require("../services/instagram.service");
 
 function sendError(res, error) {
   const status = error.status || 500;
-  res
-    .status(status)
-    .json({
-      success: false,
-      error: {
-        code: error.code || "INTERNAL_ERROR",
-        message:
-          status === 500
-            ? "An unexpected server error occurred."
-            : error.message,
-      },
-    });
+  res.status(status).json({
+    success: false,
+    error: {
+      code: error.code || "INTERNAL_ERROR",
+      message:
+        status === 500 ? "An unexpected server error occurred." : error.message,
+    },
+  });
 }
 
 async function health(req, res) {
@@ -58,32 +54,28 @@ async function callback(req, res) {
 }
 async function profile(req, res) {
   try {
-    res
-      .status(200)
-      .json({
-        success: true,
-        data: {
-          profile: await instagramService.getProfile(
-            req.query.profile || req.body?.profile,
-          ),
-        },
-      });
+    res.status(200).json({
+      success: true,
+      data: {
+        profile: await instagramService.getProfile(
+          req.query.profile || req.body?.profile,
+        ),
+      },
+    });
   } catch (error) {
     sendError(res, error);
   }
 }
 async function posts(req, res) {
   try {
-    res
-      .status(200)
-      .json({
-        success: true,
-        data: await instagramService.listPosts({
-          input: req.query.profile,
-          after: req.query.after,
-          limit: req.query.limit,
-        }),
-      });
+    res.status(200).json({
+      success: true,
+      data: await instagramService.listPosts({
+        input: req.query.profile,
+        after: req.query.after,
+        limit: req.query.limit,
+      }),
+    });
   } catch (error) {
     sendError(res, error);
   }

@@ -233,7 +233,9 @@ function createAuthorizationUrl() {
     );
   const state = crypto.randomBytes(32).toString("hex");
   oauthStates.set(state, Date.now() + 10 * 60 * 1000);
-  const url = new URL(config.embedUrl || "https://www.facebook.com/oauth/authorize");
+  const url = new URL(
+    config.embedUrl || "https://www.facebook.com/oauth/authorize",
+  );
   url.searchParams.set("client_id", config.appId);
   url.searchParams.set("redirect_uri", config.callbackUrl);
   if (!config.embedUrl) {
@@ -269,7 +271,9 @@ async function exchangeAuthorizationCode(code) {
       400,
       "INVALID_AUTHORIZATION_CODE",
     );
-  const exchangeUrl = new URL(`${config.apiHost}/${config.apiVersion}/oauth/access_token`);
+  const exchangeUrl = new URL(
+    `${config.apiHost}/${config.apiVersion}/oauth/access_token`,
+  );
   exchangeUrl.searchParams.set("client_id", config.appId);
   exchangeUrl.searchParams.set("client_secret", config.appSecret);
   exchangeUrl.searchParams.set("code", code);
@@ -278,7 +282,8 @@ async function exchangeAuthorizationCode(code) {
   const response = await fetch(exchangeUrl);
   const result = await response.json().catch(() => ({}));
   if (!response.ok || result.error || !result.access_token) {
-    const metaMessage = result.error?.message || result.error_message || result.error_description;
+    const metaMessage =
+      result.error?.message || result.error_message || result.error_description;
     throw new InstagramApiError(
       `Instagram rejected the authorization code.${metaMessage ? ` Meta response: ${metaMessage}` : " Confirm the redirect URI and Instagram App credentials match Meta."}`,
       502,

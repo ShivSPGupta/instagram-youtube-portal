@@ -98,7 +98,7 @@ export default function Dashboard() {
       label: "Instagram Posts",
       value: dashboard.loading
         ? "…"
-        : dashboard.instagram.profile?.mediaCount ?? "—",
+        : (dashboard.instagram.profile?.mediaCount ?? "—"),
       detail: dashboard.instagram.profile
         ? `@${dashboard.instagram.profile.username}`
         : dashboard.loading
